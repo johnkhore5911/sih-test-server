@@ -37,7 +37,9 @@ app.use('/api/department', department);
 app.use('/api/office', office);
 // app.use('/api/Location', Location);
 
-
+app.get('/', (req, res)=>{
+    res.json('HELLO WORLD')
+})
 
 app.listen(3000, ()=>{
     console.log("Server is running on port : 3000");
