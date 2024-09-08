@@ -157,7 +157,7 @@ function formatDuration(milliseconds) {
 //     }
 // });
 router.post('/checkin', authenticateToken, async (req, res) => {
-    const { latitude, longitude, status } = req.body;
+    const { latitude, longitude, status,checkInAt } = req.body;
 
     try {
         let checkin = await Checkin.findOne({ userId: req.user.id });
