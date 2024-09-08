@@ -8,6 +8,10 @@ const OfficeSchema = new mongoose.Schema({
     required: [true, "Please enter the office name"],
     unique: true,
   },
+  Address:{
+    type: String,
+    required: [true, "Please enter the address"],
+  },
   latitude: {
     type: Number,
     required: [true, "Please enter the latitude"],

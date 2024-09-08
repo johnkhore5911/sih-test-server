@@ -4,13 +4,13 @@ const router = express.Router();
 const { login,signup } = require("../Controllers/Auth");
 const {auth, isStudent, isAdmin}  = require("../middlewares/auth");
 const { authenticateToken }= require('../middlewares/auth')
-const {updateCheckedInStatus} = require('../Controllers/User')
+const {updateCheckedInStatus, getAllUsers} = require('../Controllers/User')
 const {getGenderCounts} = require('../Controllers/User')
 const {UserFetch} =require("../Controllers/User");
 router.post("/login",login);
 router.post("/signup",signup);
 router.get("/getGenderCounts",getGenderCounts);
-router.post('/userFetch',authenticateToken,UserFetch);
+router.post('/userFetch',UserFetch);
 
 
 
@@ -22,6 +22,8 @@ router.get("/student", auth , isStudent, (req,res)=>{
         message:"Welcome to the protected Route for Student",
     })
 });
+
+router.get('/get-users',getAllUsers)
 
 router.get("/admin",auth,isAdmin, (req,res)=>{
     res.json({
