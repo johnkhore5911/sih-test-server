@@ -41,7 +41,7 @@ exports.login = async (req, res) => {
       //password match
       //login and give JWT token
       //create JWT token
-      let token = jwt.sign(payload, process.env.JWT_SECRET, {
+      let token = jwt.sign(payload, 'john', {
         expiresIn: "24h",
       });
 
