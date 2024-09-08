@@ -336,16 +336,19 @@ exports.CheckedIn = async (req, res, next) => {
     
     // Convert to IST
     // const offset = 40 * 60 * 60 * 1000; // IST is UTC+5:30
-    const istDate = new Date(now.getTime() );
+    // const istDate = new Date(now.getTime() );
+    const isDate = new Date();
+    const hour = isDate.getHour();
+    const min = isDate.getMinutes();
 
     // Format date as DDMMYYYY
-    const day = String(istDate.getDate()).padStart(2, '0');
-    const month = String(istDate.getMonth() + 1).padStart(2, '0');
-    const year = istDate.getFullYear();
+    const day = String(isDate.getDate()).padStart(2, '0');
+    const month = String(isDate.getMonth() + 1).padStart(2, '0');
+    const year = isDate.getFullYear();
     const formattedDate = `${day}${month}${year}`;
 
     // Format time as 'H:MM AM/PM' in IST
-    const formattedTime = formatTime(istDate);
+    const formattedTime = `${hour}:${min}`;
 
     console.log(`Current Time: ${formattedTime}`);
     console.log(`Formatted Date: ${formattedDate}`);
