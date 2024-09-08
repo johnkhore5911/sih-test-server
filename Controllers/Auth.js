@@ -176,6 +176,7 @@ exports.signup = async (req, res) => {
       Address,
       office,
       department,
+      radius: officeId.distance,
       OfficeId: officeId._id,  // Save the office ID
       departmentId: departmentId._id,  // Save the department ID
       hybrid:hybrid,
