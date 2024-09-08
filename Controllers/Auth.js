@@ -103,10 +103,10 @@ const Office = require('../models/Office');
 exports.signup = async (req, res) => {
   try {
     console.log("started here")
-    const { name, EmployeeId, email, password, gender, Address, office, department, age } = req.body;
+    const { name, EmployeeId, email,hybrid, password, gender, Address, office, department, age } = req.body;
 
     // Check if any required fields are missing
-    if (!name || !EmployeeId || !password || !email || !gender || !office || !department || !Address || !age) {
+    if (!name || !EmployeeId || !hybrid || !password || !email || !gender || !office || !department || !Address || !age) {
       return res.status(400).json({
         success: false,
         message: "Please fill all the fields.",
@@ -178,6 +178,7 @@ exports.signup = async (req, res) => {
       department,
       OfficeId: officeId._id,  // Save the office ID
       departmentId: departmentId._id,  // Save the department ID
+      hybrid:hybrid,
       age,
       OfficeLongitude:officeId.longitude,
       OfficeLatitude:officeId.latitude

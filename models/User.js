@@ -196,7 +196,10 @@ const UserSchema = new mongoose.Schema({
   },
   
   history: [MonthlyHistorySchema],
-  
+  hybrid:{
+    type:Boolean,
+    required:true,
+  },
   age: {
     type: Number,
     required: [true, "Please enter your age"],
