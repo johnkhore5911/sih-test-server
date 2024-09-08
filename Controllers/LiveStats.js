@@ -243,6 +243,82 @@ exports.CheckedOUT = async (req, res, next) => {
 //     next(error); // Pass the error to the next middleware
 //   }
 // };
+
+
+// exports.CheckedIn = async (req, res, next) => {
+//   try {
+//     const userId = req.user.id;
+
+//     // Step 1: Find the EmployeeId using the userId
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       return res.status(404).json({ message: 'User not found' });
+//     }
+
+//     const employeeId = user.EmployeeId;
+
+//     // Step 2: Get the current date and time in IST
+//     const now = new Date();
+//     // Format date as DDMMYYYY
+//     const day = String(now.getDate()).padStart(2, '0');
+//     const month = String(now.getMonth() + 1).padStart(2, '0');
+//     const year = now.getFullYear();
+//     const formattedDate = `${day}${month}${year}`;
+
+//     // Format time as HH:MM:SS
+//     const timeString = now.toTimeString().split(' ')[0]; // Extract the time portion
+//     const formattedTime = timeString;
+
+//     console.log(`Current Time: ${formattedTime}`);
+//     console.log(`Formatted Date: ${formattedDate}`);
+
+//     // Step 3: Update or create check-in record in LiveState
+//     const Today = await LiveState.findOne({ Date_of_rec: formattedDate });
+
+//     if (Today) {
+//       const existingCheckin = Today.Employ_checkedin.find(checkin => checkin.employeeId === employeeId);
+//       if (existingCheckin) {
+//         // Update the existing check-in time
+//         await LiveState.updateOne(
+//           { 'Date_of_rec': formattedDate, 'Employ_checkedin.employeeId': employeeId },
+//           { $set: { 'Employ_checkedin.$.checkedInAt': formattedTime } }
+//         );
+//         console.log("Updated check-in time for the employee.");
+//       } else {
+//         // Add new check-in record with formatted time
+//         await Today.updateOne({
+//           $push: { Employ_checkedin: { employeeId, checkedInAt: formattedTime } },
+//         });
+//         console.log("Checked in employee with current time.");
+//       }
+//     } else {
+//       // Create a new entry for the day if it doesn't exist
+//       await LiveState.create({
+//         Date_of_rec: formattedDate,
+//         Employ_checkedin: [{ employeeId, checkedInAt: formattedTime }],
+//       });
+//       console.log("Created new entry and checked in employee.");
+//     }
+
+//     return res.json({ message: employeeId });
+//   } catch (error) {
+//     next(error); // Pass the error to the next middleware
+//   }
+// };
+
+
+function formatTime(date) {
+  let hours = date.getHours();
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const period = hours >= 12 ? 'PM' : 'AM';
+
+  // Convert hours from 24-hour format to 12-hour format
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+
+  return `${hours}:${minutes} ${period}`;
+}
+
 exports.CheckedIn = async (req, res, next) => {
   try {
     const userId = req.user.id;
@@ -259,19 +335,17 @@ exports.CheckedIn = async (req, res, next) => {
     const now = new Date();
     
     // Convert to IST
-    // Since JavaScript Date objects handle timezones based on the system's timezone,
-    // we can use the system's time as long as the system is set to IST.
-    // Otherwise, we would manually adjust to IST if needed.
+    // const offset = 40 * 60 * 60 * 1000; // IST is UTC+5:30
+    const istDate = new Date(now.getTime() );
 
     // Format date as DDMMYYYY
-    const day = String(now.getDate()).padStart(2, '0');
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const year = now.getFullYear();
+    const day = String(istDate.getDate()).padStart(2, '0');
+    const month = String(istDate.getMonth() + 1).padStart(2, '0');
+    const year = istDate.getFullYear();
     const formattedDate = `${day}${month}${year}`;
 
-    // Format time as HH:MM:SS
-    const timeString = now.toTimeString().split(' ')[0]; // Extract the time portion
-    const formattedTime = timeString;
+    // Format time as 'H:MM AM/PM' in IST
+    const formattedTime = formatTime(istDate);
 
     console.log(`Current Time: ${formattedTime}`);
     console.log(`Formatted Date: ${formattedDate}`);
@@ -309,7 +383,6 @@ exports.CheckedIn = async (req, res, next) => {
     next(error); // Pass the error to the next middleware
   }
 };
-
 
 
 
