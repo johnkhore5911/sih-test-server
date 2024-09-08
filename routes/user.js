@@ -44,5 +44,6 @@ router.get("/test",auth, (req,res)=>{
 router.put('/updateStatus', authenticateToken,updateCheckedInStatus);
 
 
+router.post('/checkUser',findUserbyemail);
 
 module.exports = router;
