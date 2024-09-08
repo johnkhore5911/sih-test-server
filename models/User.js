@@ -194,9 +194,15 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter Department"],
   },
-  
+  radius:{
+    type:Number,
+    required: true
+  },
   history: [MonthlyHistorySchema],
-  
+  hybrid:{
+    type:Boolean,
+    required:true,
+  },
   age: {
     type: Number,
     required: [true, "Please enter your age"],
