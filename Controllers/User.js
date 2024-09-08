@@ -30,13 +30,13 @@ exports.updateCheckedInStatus = async (req, res) => {
 
 exports.getGenderCounts = async (req, res) => {
     try {
-      // Count the number of male employees
+
       const maleCount = await User.countDocuments({ gender: 'Male' });
   
-      // Count the number of female employees
+
       const femaleCount = await User.countDocuments({ gender: 'Female' });
   
-      // Return the counts in the desired format
+      
       res.status(200).json({ data: [femaleCount,maleCount] });
     } catch (error) {
       console.error('Error retrieving gender counts:', error);
@@ -46,7 +46,7 @@ exports.getGenderCounts = async (req, res) => {
 
 
 
-//   User History update at the end of day
+
 exports.UserFetch = async (req, res) => {
     try {
       const userId = req.user.id; // Extract user ID from authenticated user
@@ -61,14 +61,14 @@ exports.UserFetch = async (req, res) => {
         return res.status(404).json({ message: 'User not found' });
       }
   
-      // Find or create the month record
+      
       let monthHistory = user.history.find(h => h.month === currentMonth);
       if (!monthHistory) {
         monthHistory = { month: currentMonth, days: [] };
         user.history.push(monthHistory);
       }
   
-      // Find or create the day record
+     
       let dayHistory = monthHistory.days.find(d => d.date == currentDate);
       if (!dayHistory) {
         const newDayId = monthHistory.days.length + 1;

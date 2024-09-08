@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { login,signup } = require("../Controllers/Auth");
+const { login,signup, findUserbyemail } = require("../Controllers/Auth");
 const {auth, isStudent, isAdmin}  = require("../middlewares/auth");
 const { authenticateToken }= require('../middlewares/auth')
 const {updateCheckedInStatus, getAllUsers} = require('../Controllers/User')
@@ -43,6 +43,6 @@ router.get("/test",auth, (req,res)=>{
 //to handle the checkin and checkout status of user and update it
 router.put('/updateStatus', authenticateToken,updateCheckedInStatus);
 
-
+router.post('/checkUser',findUserbyemail);
 
 module.exports = router;

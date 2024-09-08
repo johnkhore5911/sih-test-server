@@ -163,7 +163,7 @@ exports.findOfficeByName = async (req, res) => {
 
     const office = await Office.findOne({ name: officeName.name });
     if (!office) {
-      
+
       console.log("!office wala section");
       return res.status(404).json({
         success: false,
