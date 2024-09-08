@@ -34,7 +34,7 @@ app.use("/api/v1/admin",recentdataRoutes);
 app.use(`/api/v1`, user);
 app.use('/api/checkins', checkinRoutes);
 app.use('/api/department', department);
-app.use('/api/office', office);
+app.use('/api/office/', office);
 // app.use('/api/Location', Location);
 
 app.get('/', (req, res)=>{
@@ -42,7 +42,7 @@ app.get('/', (req, res)=>{
 })
 
 app.listen(3000, ()=>{
-    console.log("Server is running on port:   https://:localhost:3000 ");
+    console.log("Server is running on port:   https://localhost:3000 ");
 })
 
 

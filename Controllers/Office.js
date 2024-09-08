@@ -155,6 +155,35 @@ exports.getAllOffices = async (req, res) => {
   }
 };
 
+exports.findOfficeByName = async (req, res) => {
+  try {
+    const officeName = req.body;
+    console.log(`officeName ${officeName.name}`);
+    console.log("findOfficeByName");
+
+    const office = await Office.findOne({ name: officeName.name });
+    if (!office) {
+      
+      console.log("!office wala section");
+      return res.status(404).json({
+        success: false,
+        message: "Office not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      name: office.name,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "An error occurred",
+    });
+  }
+};
+
+
 // Get an Office by ID
 exports.getOfficeById = async (req, res) => {
   try {
@@ -176,7 +205,7 @@ exports.getOfficeById = async (req, res) => {
     console.error("Error fetching office:", error);
     res.status(500).json({
       success: false,
-      message: "Server error. Please try again later.",
+      message: "Server error. Please try again later......",
     });
   }
 };
