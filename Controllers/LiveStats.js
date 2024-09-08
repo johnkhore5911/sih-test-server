@@ -322,6 +322,7 @@ function formatTime(date) {
 exports.CheckedIn = async (req, res, next) => {
   try {
     const userId = req.user.id;
+    const { checkedInAt } = req.body;
 
     // Step 1: Find the EmployeeId using the userId
     const user = await User.findById(userId);
@@ -368,7 +369,7 @@ exports.CheckedIn = async (req, res, next) => {
       } else {
         // Add new check-in record with formatted time
         await Today.updateOne({
-          $push: { Employ_checkedin: { employeeId, checkedInAt: formattedTime } },
+          $push: { Employ_checkedin: { employeeId, checkedInAt: checkedInAt } },
         });
         console.log("Checked in employee with current time.");
       }
