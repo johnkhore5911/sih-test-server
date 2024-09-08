@@ -5,7 +5,54 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 
-//login
+exports.findUserbyemail = async(req,res)=>{
+  try {
+    console.log("Request to find user by email received");
+
+    const { email, password } = req.body;
+    const value=false;
+
+    // Check if both email and password are provided in the request
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email and password are required' });
+    }
+
+    // Find the user by email
+    const user = await User.findOne({ email, isadmin:true});
+
+    if (!user) {
+      console.log('User not found');
+      return res.status(404).json({ 
+        success: false,
+        message: 'User not found',
+        value:false
+       });
+    }
+
+    // Compare the hashed password with the provided password
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (isMatch) {
+      return res.json({
+        success: true,
+        message: 'User authenticated successfully',
+        value:true
+      });
+    } else {
+      return res.status(401).json({
+        success: false,
+        message: 'Incorrect password',
+        value:false
+      });
+    }
+
+  } catch (err) {
+    console.error('Server Error:', err);
+    res.status(500).json({ message: 'Server Error' });
+  }
+ }
+
+
 exports.login = async (req, res) => {
   try {
     //FETCH DATA
