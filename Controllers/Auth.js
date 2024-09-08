@@ -12,6 +12,7 @@ exports.findUserbyemail = async(req,res)=>{
     console.log("Request to find user by email received");
 
     const { email, password } = req.body;
+    const value=false;
 
     // Check if both email and password are provided in the request
     if (!email || !password) {
@@ -19,11 +20,15 @@ exports.findUserbyemail = async(req,res)=>{
     }
 
     // Find the user by email
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email, isadmin:true});
 
     if (!user) {
       console.log('User not found');
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ 
+        success: false,
+        message: 'User not found',
+        value:false
+       });
     }
 
     // Compare the hashed password with the provided password
@@ -33,11 +38,13 @@ exports.findUserbyemail = async(req,res)=>{
       return res.json({
         success: true,
         message: 'User authenticated successfully',
+        value:true
       });
     } else {
       return res.status(401).json({
         success: false,
         message: 'Incorrect password',
+        value:false
       });
     }
 
