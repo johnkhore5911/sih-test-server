@@ -107,10 +107,10 @@ const Office = require('../models/Office');
 // Create a new Office
 exports.createOffice = async (req, res) => {
   try {
-    const { name, distance, latitude, longitude } = req.body;
+    const { name,Address, distance, latitude, longitude } = req.body;
 
     // Validate input
-    if (!name || latitude === undefined || longitude === undefined) {
+    if (!name ||!Address|| latitude === undefined || longitude === undefined) {
       return res.status(400).json({
         success: false,
         message: "Please provide all required fields (name, latitude, longitude).",
@@ -118,7 +118,7 @@ exports.createOffice = async (req, res) => {
     }
 
     // Create the new Office
-    const newOffice = new Office({ name,distance, latitude, longitude });
+    const newOffice = new Office({ name, Address,distance, latitude, longitude });
 
     // Save the office to the database
     const savedOffice = await newOffice.save();
